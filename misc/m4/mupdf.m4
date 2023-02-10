@@ -2,7 +2,6 @@ AC_DEFUN([LC_MUPDF],[
   AC_ARG_WITH(mupdf,
   AS_HELP_STRING([--with-mupdf@<:@=ARG@:>@],
   [with MuPDF support [ARG=no]]))
-
   SAVE_CPPFLAGS="$CPPFLAGS"
   SAVE_LDFLAGS="$LDFLAGS"
   SAVE_LIBS="$LIBS"
@@ -10,7 +9,7 @@ AC_DEFUN([LC_MUPDF],[
       AC_MSG_RESULT([disabling MuPDF support])
   else
       CPPFLAGS="-I/usr/local/include"
-      LIBS="-lmupdf -lmupdf-third"
+      LIBS="-lmupdf -lmupdf-third -lgumbo -lharfbuzz -lfreetype -ljbig2dec -ljpeg -lmujs -lopenjp2 -lz"
       AC_CHECK_HEADER(mupdf/pdf.h,
       AC_MSG_CHECKING(for MuPDF)
       AC_TRY_LINK(
@@ -27,15 +26,13 @@ AC_DEFUN([LC_MUPDF],[
         AC_DEFINE(LINKED_MUPDF, 1, [Link MuPDF library with TeXmacs])
       fi
       AC_DEFINE(MUPDF_RENDERER, 1, [Enabling native MuPDF backend])
-      CONFIG_MUPDF="MuPdf"
+      CONFIG_MUPDF="MuPDF"
       AC_SUBST(CONFIG_MUPDF)
   ],[
       AC_MSG_RESULT(no)]))
   fi
-
   CPPFLAGS="$SAVE_CPPFLAGS"
   LDFLAGS="$SAVE_LDFLAGS"
-  LIBS="$SAVE_LIBS"
-
+  LIBS="$SAVE_LIBS -lmupdf -lmupdf-third -lgumbo -lharfbuzz -lfreetype -ljbig2dec -ljpeg -lmujs -lopenjp2 -lz"
   LC_SUBST(MUPDF)
 ])
